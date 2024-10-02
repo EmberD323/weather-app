@@ -10,9 +10,7 @@ async function getWeather(location) {
     const time = weatherData.currentConditions.datetime;
     const temp = weatherData.currentConditions.temp;
     const feelsLike = weatherData.currentConditions.feelslike;
-    const percip = weatherData.currentConditions.precip;
-    const percipChance = weatherData.currentConditions.precipprob;
-    const thisWeather = {placeName,conditions,time,temp,feelsLike,percip,percipChance};
+    const thisWeather = {placeName,conditions,time,temp,feelsLike};
     displayWeather(thisWeather);
 
 }
@@ -20,6 +18,11 @@ async function getWeather(location) {
 function getLocation(){
     let choosenLocation = document.querySelector("#location")
     return choosenLocation.value;
+}
+
+function toCelcius(farenheitTemp){
+    return (((farenheitTemp-32) * (5/9)).toFixed(1))
+
 }
 function displayWeather(weatherInfo){
     let locationContainer = document.querySelector(".location>.result");
@@ -32,16 +35,10 @@ function displayWeather(weatherInfo){
     conditionsContainer.textContent = weatherInfo.conditions;
 
     let tempContainer = document.querySelector(".temp>.result");
-    tempContainer.textContent = weatherInfo.temp + " F";
+    tempContainer.textContent = weatherInfo.temp + " F / " + toCelcius(weatherInfo.temp)+ " C";
 
     let feelsLikeContainer = document.querySelector(".feelsLike>.result");
-    feelsLikeContainer.textContent = weatherInfo.feelsLike + " F";
-
-    let percipContainer = document.querySelector(".percip>.result");
-    percipContainer.textContent = weatherInfo.percip + " mm";
-
-    let percipChanceContainer = document.querySelector(".percipChance>.result");
-    percipChanceContainer.textContent = weatherInfo.percipChance  + "% "
+    feelsLikeContainer.textContent = weatherInfo.feelsLike + " F / " + toCelcius(weatherInfo.feelsLike)+ " C";
     
     getGiphy(weatherInfo.conditions);
 
@@ -70,5 +67,4 @@ function getGiphy(keyword){
           });
     
 }
-
 
